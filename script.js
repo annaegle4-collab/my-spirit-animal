@@ -1,32 +1,82 @@
-console.log("The quiz brain is alive");
-
 const form = document.querySelector("form");
 const result = document.querySelector("#result");
 
+// Piemēra sadalījums: atbildes vērtība → dzīvnieks
+const animalByValue = {
+  a: "fox",
+  b: "bear",
+  c: "rabbit",
+  d: "deer",
+  e: "squirrel"
+};
+
+// Katra dzīvnieka nosaukums un apraksts
+const animals = {
+  fox: {
+    name: "Fox",
+    description: "You are curious, clever, and love discovering new things."
+  },
+  bear: {
+    name: "Bear",
+    description: "You are brave, strong, and ready for a challenge."
+  },
+  rabbit: {
+    name: "Rabbit",
+    description: "You are energetic, quick, and love freedom."
+  },
+  deer: {
+    name: "Deer",
+    description: "You are calm, thoughtful, and enjoy nature."
+  },
+  squirrel: {
+    name: "Squirrel",
+    description: "You are playful, resourceful, and full of surprises."
+  }
+};
+
+// Vienāda punktu skaita gadījumā priekšroka pirmajam šajā sarakstā.
+// Pielāgo šo secību savam Block 1 noteikumam.
+const tiePriority = ["fox", "bear", "rabbit", "deer", "squirrel"];
+
 form.addEventListener("submit", function (event) {
   event.preventDefault();
-
   console.log("Submitted!");
 
-  const answer1 = form.querySelector('input[name="q1"]:checked');
-  const answer2 = form.querySelector('input[name="q2"]:checked');
-  const answer3 = form.querySelector('input[name="q3"]:checked');
-  const answer4 = form.querySelector('input[name="q4"]:checked');
-  const answer5 = form.querySelector('input[name="q5"]:checked');
+  const questions = ["q1", "q2", "q3", "q4", "q5"];
 
-  if (!answer1 || !answer2 || !answer3 || !answer4 || !answer5) {
-    result.textContent = "Please answer all five questions.";
-    return;
+  // Punkti sākas no nulles katrā iesniegšanas reizē.
+  const scores = {
+    fox: 0,
+    bear: 0,
+    rabbit: 0,
+    deer: 0,
+    squirrel: 0
+  };
+
+  for (const question of questions) {
+    const answer = form.querySelector(
+      `input[name="${question}"]:checked`
+    );
+
+    if (!answer) {
+      result.textContent = "Please answer all five questions.";
+      return;
+    }
+
+    const animal = animalByValue[answer.value];
+    scores[animal] += 1;
   }
 
-  console.log(
-    answer1.value,
-    answer2.value,
-    answer3.value,
-    answer4.value,
-    answer5.value
-  );
+  console.log(scores);
+
+  let winner = tiePriority[0];
+
+  for (const animal of tiePriority) {
+    if (scores[animal] > scores[winner]) {
+      winner = animal;
+    }
+  }
 
   result.textContent =
-    `You picked: ${answer1.value}, ${answer2.value}, ${answer3.value}, ${answer4.value}, ${answer5.value}`;
+    `You're a ${animals[winner].name}: ${animals[winner].description}`;
 });
