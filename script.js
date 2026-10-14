@@ -14,23 +14,23 @@ const animalByValue = {
 const animals = {
   fox: {
     name: "Fox",
-    description: "You are curious, clever, and love discovering new things."
+    description: "You came for a walk, but now you're investigating mysterious footprints."
   },
   bear: {
     name: "Bear",
-    description: "You are brave, strong, and ready for a challenge."
+    description: "You carry the snacks and confidently lead everyone in the wrong direction."
   },
   rabbit: {
     name: "Rabbit",
-    description: "You are energetic, quick, and love freedom."
+    description: "A relaxing forest walk? You've already turned it into a race."
   },
   deer: {
     name: "Deer",
-    description: "You are calm, thoughtful, and enjoy nature."
+    description: "You find the quietest spot in the forest and hope nobody follows."
   },
   squirrel: {
     name: "Squirrel",
-    description: "You are playful, resourceful, and full of surprises."
+    description: "You find the quietest spot in the forest and hope nobody follows."
   }
 };
 
@@ -59,9 +59,10 @@ form.addEventListener("submit", function (event) {
     );
 
     if (!answer) {
-      result.textContent = "Please answer all five questions.";
-      return;
-    }
+  result.textContent =
+    "Oops! One of your answers is missing. Answer all five questions to meet your forest animal!";
+  return;
+}
 
     const animal = animalByValue[answer.value];
     scores[animal] += 1;
@@ -79,4 +80,10 @@ form.addEventListener("submit", function (event) {
 
   result.textContent =
     `You're a ${animals[winner].name}: ${animals[winner].description}`;
+});
+const playAgain = document.querySelector("#play-again");
+
+playAgain.addEventListener("click", function () {
+  form.reset();
+  result.textContent = "";
 });
